@@ -1,5 +1,5 @@
 import 'package:chat/firebase_options.dart';
-import 'package:chat/view/create_account_page.dart';
+import 'package:chat/view/login_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -15,12 +15,15 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    final darkTheme = ThemeData.from(
+        colorScheme: const ColorScheme.dark(primary: Colors.green));
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Scorer',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const CreateAccountPage(),
+      darkTheme: darkTheme,
+      home: const LoginPage(),
     );
   }
 }
