@@ -1,6 +1,8 @@
+import 'package:chat/view/chat_page.dart';
 import 'package:chat/view/create_account_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
@@ -57,8 +59,9 @@ class _LoginPageState extends State<LoginPage> {
                   setState(() {
                     infoText = 'ログインOK：${user.email}';
                   });
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ChatPage(user: user)));
                 }
-                catch (e){
+                on FirebaseAuthException catch  (e){
                   setState(() {
                     infoText = "ログインNG：${e.toString()}";
                   });
@@ -68,15 +71,22 @@ class _LoginPageState extends State<LoginPage> {
           const SizedBox(height: 8),
           Text(infoText),
           const SizedBox(height: 8,),
-          ElevatedButton(
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => const CreateAccountPage()));
-              },
-              child: const Text('新規作成'),
-          )
+          RichText(
+            text: TextSpan(
+              style: const TextStyle(color: Colors.black),
+              children: [
+                const TextSpan(text: 'アカウントを作成していない方は'),
+                TextSpan(text: 'こちら',
+                    style: const TextStyle(color: Colors.blue),
+                    recognizer: TapGestureRecognizer()..onTap = (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => CreateAccountPage()));
+                    }
+                ),
+              ],
+            ),
+          ),
         ],
       ),
-
     );
   }
 }

@@ -17,6 +17,9 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('新規作成'),
+      ),
       body: Center(
         child: Container(
           padding: const EdgeInsets.all(32),
@@ -28,7 +31,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                   setState(() {
                     newUserEmail = value;
                   });
-                },
+                }
               ),
               const SizedBox(height: 8,),
               TextFormField(

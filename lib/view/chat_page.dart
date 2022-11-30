@@ -1,9 +1,13 @@
 import 'package:chat/view/add_post_page.dart';
 import 'package:chat/view/create_account_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class ChatPage extends StatefulWidget {
-  const ChatPage({Key? key}) : super(key: key);
+  final User user;
+
+  const ChatPage({Key? key, required this.user}) : super(key: key);
+
 
   @override
   State<ChatPage> createState() => _ChatPageState();
@@ -24,9 +28,9 @@ class _ChatPageState extends State<ChatPage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async{
-          await Navigator.push(context, MaterialPageRoute(builder: (context) => AddPostPage()));
+          await Navigator.push(context, MaterialPageRoute(builder: (context) => const AddPostPage(user: user)));
         },
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
 
       ),
     );
