@@ -1,5 +1,6 @@
 import 'package:chat/view/add_post_page.dart';
 import 'package:chat/view/create_account_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -26,12 +27,45 @@ class _ChatPageState extends State<ChatPage> {
               icon: const Icon(Icons.close))
         ],
       ),
+      body: Column(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(8),
+            child: Text('ログイン情報: ${widget.user.email}'),
+          ),
+          Expanded(
+            child: FutureBuilder<QuerySnapshot> (
+              future: FirebaseFirestore.instance
+                  .collection('posts')
+                  .orderBy('date')
+                  .get(),
+              builder: (context, snapshot) {
+                if(snapshot.hasData) {
+                  final List<DocumentSnapshot> documents = snapshot.data!.docs;
+                  return ListView(
+                    children: documents.map((document) {
+                      return Card(
+                        child: ListTile(
+                          title: Text(document['text']),
+                          subtitle: Text(document['email']),
+                        ),
+                      );
+                    }).toList()
+                  );
+                }
+                return const Center(
+                  child: Text('読込中...'),
+                );
+              },
+            ),
+          )
+        ],
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async{
-          await Navigator.push(context, MaterialPageRoute(builder: (context) => const AddPostPage(user: user)));
+          await Navigator.push(context, MaterialPageRoute(builder: (context) => AddPostPage(user: widget.user)));
         },
         child: const Icon(Icons.add),
-
       ),
     );
   }
