@@ -23,40 +23,44 @@ class _AddPostPageState extends State<AddPostPage> {
         title: const Text('チャット投稿'),
       ),
       body: Center(
-        child: Column(
-          children: [
-            TextFormField(
-              decoration: const InputDecoration(labelText: '投稿メッセージ'),
-              keyboardType: TextInputType.multiline,
-              maxLines: 3,
-              onChanged: (String value){
-                setState(() {
-                  messageText = value;
-                });
-              },
-            ),
-            const SizedBox(height: 8,),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                child: const Text('投稿'),
-                onPressed: () async {
-                  final date = DateTime.now().toLocal().toIso8601String();
-                  final email = widget.user.email;
-
-                  await FirebaseFirestore.instance
-                      .collection('posts')
-                      .doc()
-                      .set({
-                    'text': messageText,
-                    'email': email,
-                    'date': date
+        child: Container(
+          padding: const EdgeInsets.all(32),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TextFormField(
+                decoration: const InputDecoration(labelText: '投稿メッセージ'),
+                keyboardType: TextInputType.multiline,
+                maxLines: 3,
+                onChanged: (String value){
+                  setState(() {
+                    messageText = value;
                   });
-                  Navigator.pop(context);
                 },
+              ),
+              const SizedBox(height: 8,),
+              Container(
+                width: double.infinity,
+                child: ElevatedButton(
+                  child: const Text('投稿'),
+                  onPressed: () async {
+                    final date = DateTime.now().toLocal().toIso8601String();
+                    final email = widget.user.email;
+
+                    await FirebaseFirestore.instance
+                        .collection('posts')
+                        .doc()
+                        .set({
+                      'text': messageText,
+                      'email': email,
+                      'date': date
+                    });
+                    Navigator.of(context).pop();
+                  },
+                ),
               )
-            )
-          ],
+            ],
+          ),
         ),
       )
     );

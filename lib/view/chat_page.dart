@@ -1,5 +1,6 @@
 import 'package:chat/view/add_post_page.dart';
 import 'package:chat/view/create_account_page.dart';
+import 'package:chat/view/login_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +23,7 @@ class _ChatPageState extends State<ChatPage> {
         title: const Text('チャット'),
         actions: [
           IconButton(onPressed: () async{
-            await Navigator.push(context, MaterialPageRoute(builder: (context) => const CreateAccountPage()));
+            await Navigator.push(context, MaterialPageRoute(builder: (context) => const LoginPage()));
           },
               icon: const Icon(Icons.close))
         ],
